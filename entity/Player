@@ -1,0 +1,21 @@
+/*
+ * Name: Margaux Jayziel C. Flormata & Selena Therese Barrameda
+ * Date Created: May 9, 2024 2:59:40 PM
+ * Section: WX - 4L
+ */
+package entity;
+
+public class Player {
+	// Class attributes
+	private Character character;
+	
+	// Constructor
+	public Player(Character character) {
+		this.character = character;
+	}
+	
+	//	Getter method for name;
+	public Character getCharacter() {
+        return this.character;
+    }
+}

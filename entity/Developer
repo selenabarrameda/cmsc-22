@@ -1,0 +1,47 @@
+/*
+ * Name: Margaux Jayziel C. Flormata & Selena Therese Barrameda
+ * Date Created: May 5, 2024 4:45:08 AM
+ * Section: WX - 4L
+ */
+package entity;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+public class Developer {
+	// Class attributes
+	private String name;
+    private String degreeProgram;
+    private int age;
+    Image image;
+    ImageView imageView;
+
+    // Constructor
+    public Developer(String name, String degreeProgram, int age, String imagePath) {
+        this.name = name;
+        this.degreeProgram = degreeProgram;
+        this.age = age;
+        this.image = new Image(imagePath,160,160,false,false);
+        this.imageView = new ImageView(this.image);
+    }
+
+	//	Getter method for name
+    public String getName() {
+        return name;
+    }
+
+	//	Getter method for degree program
+    public String getDegreeProgram() {
+        return degreeProgram;
+    }
+
+	//	Getter method for age
+    public int getAge() {
+        return age;
+    }
+    
+	//	Getter method for imageView
+    public ImageView getImageView() {
+    	return imageView;
+    }
+}

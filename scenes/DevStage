@@ -1,0 +1,177 @@
+/*
+ * Name: Margaux Jayziel C. Flormata & Selena Therese Barrameda
+ * Date Created: May 5, 2024 1:41:42 AM
+ * Section: WX - 4L
+ */
+package scenes;
+
+import entity.Developer;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+public class DevStage {
+	// Class attributes
+	private Stage devStage;
+	private Developer dev1, dev2;
+	private Button backButton;
+	private GridPane devPane;
+	private StackPane headerPane;
+	private VBox devRoot;
+	private Image devBackground;
+	private Text header;
+	
+	// Constructor
+    public DevStage(Stage stage) {
+        this.devStage = stage;
+    	this.header = new Text("DEVELOPERS");
+        this.devPane = new GridPane();
+		this.headerPane = new StackPane();
+        this.devRoot = new VBox(40);
+        this.backButton = new Button("Back to Menu");
+        this.dev1 = new Developer("Selena Therese M. Barrameda","BS Statistics",20,"images/biscuit.png");
+        this.dev2 = new Developer("Margaux Jayziel C. Flormata","BS Statistics",20,"images/biscuit.png");
+    }
+    
+	// Method for setting the DevStage
+    public void setStage() {
+		// Sets the background image
+    	this.devRoot.setBackground(new Background(getBackgroundImage()));
+    	
+    	// Sets the background color for header
+    	BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(101, 2, 130, 0.7), new CornerRadii(20), new Insets(0, 100, 0, 100));
+        Background background = new Background(backgroundFill);
+        this.headerPane.setBackground(background);
+    	
+    	// Loads custom fonts
+		Font.loadFont(getClass().getResourceAsStream("/fonts/ARCADECLASSIC.TTF"), 10);
+    	
+		// Customizes the header text
+		this.header.setStyle("-fx-text-fill: #8A5403;" +
+								"-fx-font-size: 80pt; " +
+								"-fx-font-weight: bold;" +
+								"-fx-font-family: 'ARCADECLASSIC';" +
+								"-fx-fill: #02F3FC; ");
+		
+    	// Adds the info of the 1st developer to the GridPane
+        GridPane.setHalignment(dev1.getImageView(), HPos.CENTER);
+        this.devPane.add(dev1.getImageView(),0,0);
+        Text dev1Text = new Text("Developer 1");
+        this.devPane.add(dev1Text, 0, 1);
+        Text dev1NameText = new Text("Name: " + dev1.getName());
+        this.devPane.add(dev1NameText, 0, 2);
+        Text dev1DegreeText = new Text("Degree Program: " + dev1.getDegreeProgram());
+        this.devPane.add(dev1DegreeText, 0, 3);
+        Text dev1AgeText = new Text("Age: " + dev1.getAge());
+        this.devPane.add(dev1AgeText, 0, 4);
+        
+        // Adds the info of the 2nd developer to the GridPane
+        GridPane.setHalignment(dev2.getImageView(), HPos.CENTER);
+        this.devPane.add(dev2.getImageView(),1,0);
+        Text dev2Text = new Text("Developer 2");
+        this.devPane.add(dev2Text, 1, 1);
+        Text dev2NameText = new Text("Name: " + dev2.getName());
+        this.devPane.add(dev2NameText, 1, 2);
+        Text dev2DegreeText = new Text("Degree Program: " + dev2.getDegreeProgram());
+        this.devPane.add(dev2DegreeText, 1, 3);
+        Text dev2AgeText = new Text("Age: " + dev2.getAge());
+        this.devPane.add(dev2AgeText, 1, 4);
+        
+        // Customizes the developer's text info
+        for (Text text: new Text[] {dev1NameText,dev1DegreeText,dev1AgeText,dev2NameText,dev2DegreeText,dev2AgeText}) {
+        	text.setStyle("-fx-fill: #EAEAEA;" +
+						"-fx-font-size: 20pt;" +
+						"-fx-font-weight: bold;" +
+						"-fx-font-family: 'ARCADECLASSIC';");
+        }
+        for (Text text: new Text[] {dev1Text,dev2Text}) {
+            text.setFill(Color.PEACHPUFF); 
+        	text.setStroke(Color.KHAKI);
+            text.setStrokeWidth(1);
+            GridPane.setHalignment(text, HPos.CENTER);
+            text.setStyle(
+					"-fx-font-size: 30pt; " +
+					"-fx-font-weight: bold;" +
+					"-fx-font-family: 'ARCADECLASSIC';");
+        }
+        
+        // Customizes the GridPane
+        this.devPane.setAlignment(Pos.CENTER);		
+        this.devPane.setHgap(200);	
+        this.devPane.setVgap(20);
+        
+		// Customizes the back button
+		this.backButton.setPrefWidth(300);
+		this.backButton.setStyle("-fx-background-color: linear-gradient(#FDDA50, #D4AC09);"+
+			"-fx-text-fill: #8A5403;" +
+			"-fx-font-size: 20pt; " +
+			"-fx-font-family: 'ARCADECLASSIC';" +
+			"-fx-background-radius: 20;");
+		this.backButton.setOnMouseEntered(e -> this.backButton.setStyle("-fx-background-color: linear-gradient(#F0C728, #B39101);"+
+			"-fx-text-fill: #8A5403;" +
+			"-fx-font-size: 20pt; " +
+			"-fx-font-family: 'ARCADECLASSIC';" +
+			"-fx-background-radius: 20;"));
+		this.backButton.setOnMouseExited(e -> this.backButton.setStyle("-fx-background-color: linear-gradient(#FDDA50, #D4AC09);"+
+			"-fx-text-fill: #8A5403;" +
+			"-fx-font-size: 20pt; " +
+			"-fx-font-family: 'ARCADECLASSIC';" +
+			"-fx-background-radius: 20;"));
+		
+		// Handles the back button to switch stages
+        this.backButton.setOnAction(event -> returnToMenu());	
+        
+        // Adds the header to the headerPane
+     	this.headerPane.getChildren().add(header);
+        
+        // Adds the header, GridPane and backButton to the root node
+        this.devRoot.getChildren().addAll(headerPane,devPane,backButton); 
+        
+        // Customizes the root node
+        this.devRoot.setAlignment(Pos.CENTER);	
+        
+        Scene devScene = new Scene(devRoot,1344,672);	// Adds the root node to the scene
+        this.devStage.setScene(devScene);				// Adds the scene to the stage
+        this.devStage.setTitle("Developers");			// Sets the title of the stage
+        this.devStage.setResizable(false);				// Sets the stage to unresizable
+        this.devStage.show();							// Show the stage
+    }
+    
+    // Method for getting the background image
+ 	private BackgroundImage getBackgroundImage() {
+ 		if (this.devBackground == null) {
+            this.devBackground = new Image("images/late-afternoon.jpg");
+        }
+        return new BackgroundImage(
+                this.devBackground,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)
+        );
+     }
+ 	
+ 	// Method for switching back to Menu
+ 	private void returnToMenu() {
+ 		// Create and show the menu stage again
+ 		MenuStage menuStage = new MenuStage();
+ 		menuStage.setStage(devStage);
+ 	}
+}

@@ -1,0 +1,166 @@
+/*
+ * Name: Margaux Jayziel C. Flormata & Selena Therese Barrameda
+ * Date Created: May 9, 2024 4:51:57 PM
+ * Section: WX - 4L
+ */
+package scenes;
+
+import entity.Player;
+import game.GameTimer;
+import game.Sprite;
+import javafx.animation.AnimationTimer;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+public class Level1Stage {
+	// Class attributes
+	private Stage level1Stage;
+	private Player player1;
+	private Player player2;
+	private Image gameBackground;
+	private StackPane stackRoot;
+	private boolean[] player1Keys;
+    private boolean[] player2Keys;
+
+	// Constructor
+	public Level1Stage(Stage stage, Player player1, Player player2) {
+		this.level1Stage = stage;
+		this.player1 = player1;
+		this.player2 = player2;
+		this.stackRoot = new StackPane();
+		this.player1Keys = new boolean[4];
+        this.player2Keys = new boolean[4];
+	}
+	
+	// Method for setting the level 1 Scene
+	public void setStage() {
+		// Sets the background image
+    	this.stackRoot.setBackground(new Background(getBackgroundImage()));
+    
+		// Load custom fonts
+		Font.loadFont(getClass().getResourceAsStream("/fonts/ARCADECLASSIC.TTF"), 10);
+		
+//		this.stackRoot.getChildren().addAll(player1.getCharacter().getImageView(), player2.getCharacter().getImageView());
+		
+        Scene level1Scene = new Scene(stackRoot,1344,672);	// Adds the root node to the scene
+        this.level1Stage.setScene(level1Scene);				// Adds the scene to the stage
+        this.level1Stage.setTitle("Level1");				// Sets the title of the stage
+        this.level1Stage.setResizable(false);				// Sets the stage to unresizable
+        this.level1Stage.show();							// Show the stage
+        
+	}
+	
+	// Method for getting the background image
+	private BackgroundImage getBackgroundImage() {
+	    if (this.gameBackground == null) {
+	        this.gameBackground = new Image("images/Level1.png");
+	    }
+	    BackgroundImage backgroundImage = new BackgroundImage(
+	            this.gameBackground,
+	            BackgroundRepeat.NO_REPEAT,
+	            BackgroundRepeat.NO_REPEAT,
+	            BackgroundPosition.DEFAULT,
+	            new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)
+	    );
+
+	    // Create an ImageView with the background image
+	    ImageView imageView = new ImageView(this.gameBackground);
+
+	    // Bind the size of the ImageView to the stage size
+	    imageView.fitWidthProperty().bind(this.level1Stage.widthProperty());
+	    imageView.fitHeightProperty().bind(this.level1Stage.heightProperty());
+
+	    return backgroundImage;
+	}
+	
+//	// Method to start the game loop for player movement
+//    private void startGameLoop() {
+//        AnimationTimer timer = new AnimationTimer() {
+//            @Override
+//            public void handle(long now) {
+//                // Move player 1
+//                if (player1Keys[0]) player1.moveUp();
+//                if (player1Keys[1]) player1.moveDown();
+//                if (player1Keys[2]) player1.moveLeft();
+//                if (player1Keys[3]) player1.moveRight();
+//
+//                // Move player 2
+//                if (player2Keys[0]) player2.moveUp();
+//                if (player2Keys[1]) player2.moveDown();
+//                if (player2Keys[2]) player2.moveLeft();
+//                if (player2Keys[3]) player2.moveRight();
+//
+//                // Update player 1 view position
+//                player1View.setX(player1.getX());
+//                player1View.setY(player1.getY());
+//
+//                // Update player 2 view position
+//                player2View.setX(player2.getX());
+//                player2View.setY(player2.getY());
+//            }
+//        };
+//        timer.start();
+//    }
+//
+//    // Set up key event handlers
+//    private void setupKeyEvents(Scene scene) {
+//        scene.setOnKeyPressed(event -> {
+//            if (event.getCode() == KeyCode.W) {
+//                player1Keys[0] = true;
+//            } else if (event.getCode() == KeyCode.S) {
+//                player1Keys[1] = true;
+//            } else if (event.getCode() == KeyCode.A) {
+//                player1Keys[2] = true;
+//            } else if (event.getCode() == KeyCode.D) {
+//                player1Keys[3] = true;
+//            } else if (event.getCode() == KeyCode.UP) {
+//                player2Keys[0] = true;
+//            } else if (event.getCode() == KeyCode.DOWN) {
+//                player2Keys[1] = true;
+//            } else if (event.getCode() == KeyCode.LEFT) {
+//                player2Keys[2] = true;
+//            } else if (event.getCode() == KeyCode.RIGHT) {
+//                player2Keys[3] = true;
+//            }
+//        });
+//
+//        scene.setOnKeyReleased(event -> {
+//            if (event.getCode() == KeyCode.W) {
+//                player1Keys[0] = false;
+//            } else if (event.getCode() == KeyCode.S) {
+//                player1Keys[1] = false;
+//            } else if (event.getCode() == KeyCode.A) {
+//                player1Keys[2] = false;
+//            } else if (event.getCode() == KeyCode.D) {
+//                player1Keys[3] = false;
+//            } else if (event.getCode() == KeyCode.UP) {
+//                player2Keys[0] = false;
+//            } else if (event.getCode() == KeyCode.DOWN) {
+//                player2Keys[1] = false;
+//            } else if (event.getCode() == KeyCode.LEFT) {
+//                player2Keys[2] = false;
+//            } else if (event.getCode() == KeyCode.RIGHT) {
+//                player2Keys[3] = false;
+//            }
+//        });
+//    }
+
+}
+

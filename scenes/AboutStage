@@ -1,0 +1,191 @@
+package scenes;
+
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+public class AboutStage {
+	// Class attributes
+	private Stage aboutStage;
+	private VBox infoBox;
+	private StackPane headerPane;
+	private GridPane buttonPane;
+	private VBox rootBox;
+	private Text header;
+	private Text info1;
+	private Text info2;
+	private Text info3;
+	private Text info4;
+	private Button backButton;
+	private Button nextButton;
+	private Image devBackground;
+
+	// Constructor
+	public AboutStage(Stage stage) {
+		this.aboutStage = stage;
+		this.header = new Text("MECHANICS");
+		this.headerPane = new StackPane();
+        this.buttonPane = new GridPane();
+		this.rootBox = new VBox(40);
+		this.infoBox = new VBox(30);
+		this.backButton = new Button("Back to Menu");
+        this.nextButton = new Button("Reference");
+
+	}
+	
+	// Method for setting the AboutStage
+	public void setStage() {
+		// Sets the background image
+    	this.rootBox.setBackground(new Background(getBackgroundImage()));
+    	
+    	// Sets the background color for header and texts
+        BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(101, 2, 130, 0.7), new CornerRadii(20), new Insets(0, 100, 0, 100));
+        Background background = new Background(backgroundFill);
+        this.infoBox.setBackground(background);
+        this.headerPane.setBackground(background);
+    	
+    	// Loads custom fonts
+		Font.loadFont(getClass().getResourceAsStream("/fonts/ARCADECLASSIC.TTF"), 10);
+		
+		// Customizes header text
+		this.header.setStyle("-fx-text-fill: #8A5403;" +
+								"-fx-font-size: 80pt; " +
+								"-fx-font-weight: bold;" +
+								"-fx-font-family: 'ARCADECLASSIC';" +
+								"-fx-fill: #02F3FC; ");
+		
+		// Sets the instruction text 
+		this.info1 = new Text("◉   In this game, Player 1 moves using WASD and Player 2 with the arrow keys."
+				+ "In addition, both players may activate the Water Blast powerup by pressing Shift (Player 1) "
+				+ "or Spacebar (Player 2).");
+		this.info1.setWrappingWidth(1000);
+		
+		this.info2 = new Text("◉   The goal is for the player at one end to successfully cross the lines, "
+				+ "reach the other side and return without being tagged by the taggers.");
+		this.info2.setWrappingWidth(1000);
+		
+		this.info3 = new Text("◉   Similarly, players are challenged to disrupt the opposing player by "
+				+ "utilizing power-ups distributed along the path to delay their opponent.");
+		this.info3.setWrappingWidth(1000);
+		
+		this.info4 = new Text("◉   The first player to complete this task earns a point. The game progresses "
+				+ "to the next level until one player earns three points, winning the overall match.");
+		this.info4.setWrappingWidth(1000);
+				
+		// Customizes instruction text
+		for (Text text: new Text[] {info1,info2,info3,info4}) {
+			text.setFill(Color.PEACHPUFF); 
+        	text.setStroke(Color.KHAKI);
+            text.setStrokeWidth(0.5);
+            text.setStyle("-fx-font-size: 20pt; " +
+					"-fx-font-weight: bold;" +
+					"-fx-font-family: 'ARCADECLASSIC';");
+		}
+		
+		
+		// Customizes the buttons
+        for (Button button: new Button[] {backButton,nextButton}) {
+        	button.setPrefWidth(300);
+        	button.setStyle("-fx-background-color: linear-gradient(#FDDA50, #D4AC09);"+
+    				"-fx-text-fill: #8A5403;" +
+    				"-fx-font-size: 20pt; " +
+    				"-fx-font-family: 'ARCADECLASSIC';" +
+    				"-fx-background-radius: 20;");
+        	button.setOnMouseEntered(e -> this.backButton.setStyle("-fx-background-color: linear-gradient(#F0C728, #B39101);"+
+    				"-fx-text-fill: #8A5403;" +
+    				"-fx-font-size: 20pt; " +
+    				"-fx-font-family: 'ARCADECLASSIC';" +
+    				"-fx-background-radius: 20;"));
+        	button.setOnMouseExited(e -> this.backButton.setStyle("-fx-background-color: linear-gradient(#FDDA50, #D4AC09);"+
+    				"-fx-text-fill: #8A5403;" +
+    				"-fx-font-size: 20pt; " +
+    				"-fx-font-family: 'ARCADECLASSIC';" +
+    				"-fx-background-radius: 20;"));
+        }
+		
+		// Handle the buttons to switch stages and scenes
+        this.backButton.setOnAction(event -> returnToMenu());
+        this.nextButton.setOnAction(event -> referenceScene());
+        
+        // Adds the instruction texts to the instructionBox
+		this.infoBox.getChildren().addAll(info1,info2,info3,info4);
+		
+		// Customizes the instructionBox
+		this.infoBox.setPadding(new Insets(15));
+		this.infoBox.setAlignment(Pos.CENTER);
+		
+		// Adds the header to the headerPane
+		this.headerPane.getChildren().add(header);
+		
+		// Add buttons to the buttonPane
+        this.buttonPane.add(nextButton, 0, 0);
+        this.buttonPane.add(backButton, 1, 0);
+    
+        // Customizes the buttonPane
+        this.buttonPane.setAlignment(Pos.CENTER);		
+        this.buttonPane.setHgap(200);	
+		
+		// Adds the headerPane, instructionbox and buttonPane to the root node
+		this.rootBox.getChildren().addAll(headerPane,infoBox,buttonPane);
+		this.rootBox.setAlignment(Pos.CENTER);		// Aligns the the root node
+
+		Scene aboutScene = new Scene(rootBox,1344,672);		// Adds the root node to the scene
+		this.aboutStage.setScene(aboutScene);				// Adds the scene to the stage
+		this.aboutStage.setTitle("About");					// Sets the title of the stage
+		this.aboutStage.setResizable(false);				// Sets the stage to unresizable
+        this.aboutStage.show();								// Show the stage
+	}
+	
+	 // Method for getting the background image
+ 	private BackgroundImage getBackgroundImage() {
+ 		if (this.devBackground == null) {
+            this.devBackground = new Image("images/late-afternoon.jpg");
+        }
+        return new BackgroundImage(
+                this.devBackground,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)
+        );
+     }
+ 	
+ 	// Method for switching back to Menu
+ 	private void returnToMenu() {
+ 		// Create and show the menu stage again
+ 		MenuStage menuStage = new MenuStage();
+ 		menuStage.setStage(aboutStage);
+ 	}
+ 	
+ 	// Method for switching to the reference scene
+ 	private void referenceScene() {
+ 		// Edit the nodes
+ 		this.rootBox.getChildren().remove(buttonPane);
+ 		this.header.setText("REFERENCES");
+ 		this.rootBox.getChildren().add(backButton);
+ 		
+ 		// Adds the references
+ 		this.info1.setText("https://limezu.itch.io/serenevillagerevamped");
+ 		this.info2.setText("https://www.piskelapp.com/p/create/sprite");
+ 		this.info3.setText("https://hdqwalls.com/wallpaper/2560x1080/late-afternoon-pixel-art");
+ 		this.info4.setText("https://www.mapeditor.org/");
+ 		
+ 	}
+}
+

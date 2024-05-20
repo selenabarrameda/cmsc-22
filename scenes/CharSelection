@@ -1,0 +1,239 @@
+/*
+ * Name: Margaux Jayziel C. Flormata & Selena Therese Barrameda
+ * Date Created: May 6, 2024 8:10:06 PM
+ * Section: WX - 4L
+ */
+package scenes;
+
+import entity.Character;
+import entity.Player;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+public class CharSelection {
+	// Class attributes
+    private Stage charSelectStage;
+    private GridPane charPane;
+	private StackPane headerPane;
+    private VBox charSelectRoot;
+    private Image charSelectBackground;
+    private Text header;
+    private Text playerText1;
+    private Text playerText2;
+    private Character Selena;
+    private Character Jay;
+    private Player player1;
+    private Player player2;
+    private boolean player1Turn;
+
+    // Constructor
+    public CharSelection(Stage stage) {
+        this.charSelectStage = stage;
+        this.header = new Text("CHOOSE CHARACTER");
+        this.playerText1 = new Text("Player 1");
+        this.playerText2 = new Text("Player 1");
+		this.headerPane = new StackPane();
+        this.charPane = new GridPane();
+        this.charSelectRoot = new VBox(40);
+        this.Selena = new Character("Selena", 100, 5, "images/Selena_scaled.png", "images/Selena.png");
+        this.Jay = new Character("Jay", 50, 10, "images/Jay_scaled.png", "images/Jay.png");
+        this.player1 = new Player(null);
+        this.player2 = new Player(null);
+        this.player1Turn = true;
+    }
+
+	// Method for setting the CharSelectionStage
+    public void setStage() {
+		// Sets the background image
+        this.charSelectRoot.setBackground(new Background(getBackgroundImage()));
+        
+        // Sets the background color for header
+    	BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(101, 2, 130, 0.7), new CornerRadii(20), new Insets(0, 100, 0, 100));
+        Background background = new Background(backgroundFill);
+        this.headerPane.setBackground(background);
+
+    	// Load custom fonts
+        Font.loadFont(getClass().getResourceAsStream("/fonts/ARCADECLASSIC.TTF"), 10);
+
+    	// Customizes the header text
+        this.header.setStyle("-fx-text-fill: #8A5403;" +
+                "-fx-font-size: 80pt; " +
+                "-fx-font-weight: bold;" +
+                "-fx-font-family: 'ARCADECLASSIC';" +
+                "-fx-fill: #02F3FC; ");
+        
+        // Customizes the players' text
+        for (Text text : new Text[]{playerText1, playerText2}) {
+            text.setStyle("-fx-text-fill: #8A5403;" +
+                    "-fx-font-size: 50pt; " +
+                    "-fx-font-weight: bold;" +
+                    "-fx-font-family: 'ARCADECLASSIC';" +
+                    "-fx-fill: #FFDE59; ");
+            text.setVisible(false);		// Temporarily makes the text not visible
+        }
+
+		// Creates text display for character's name
+        Text char1 = new Text(Jay.getName());
+        Text char2 = new Text(Selena.getName());
+
+		// Customizes the character's text
+        for (Text text : new Text[]{char1, char2}) {
+            text.setFill(Color.PEACHPUFF);
+            text.setStroke(Color.KHAKI);
+            text.setStrokeWidth(0.5);
+            text.setStyle("-fx-font-size: 50pt; " +
+                    "-fx-font-weight: bold;" +
+                    "-fx-font-family: 'ARCADECLASSIC';");
+        }
+
+		// Creates the imageView of the characters
+        ImageView jayImage = Jay.getDisplayView();
+        ImageView selenaImage = Selena.getDisplayView();
+
+		// Sets the imageView ID 
+        jayImage.setId("Jay");
+        selenaImage.setId("Selena");
+        
+        // Plays the character's animation
+        this.Jay.setupDisplay();
+        this.Selena.setupDisplay();
+
+		// Set properties and hand
+        for (ImageView imageView : new ImageView[]{jayImage, selenaImage}) {
+        	// Adds mouse hover effect on the characters
+            imageView.setOnMouseEntered(event -> {
+                imageView.setOpacity(0.7);
+                imageView.setStyle("-fx-effect: dropshadow(gaussian, yellow, 15, 0.5, 0, 0);");
+                if (imageView.getId().equals("Jay")) {
+                	playerText1.setVisible(true);
+                } else {
+                	playerText2.setVisible(true);
+                }
+            });
+            imageView.setOnMouseExited(event -> {
+                imageView.setOpacity(1.0);
+                imageView.setStyle("-fx-effect: none;");
+                if (imageView.getId().equals("Jay")) {
+                	playerText1.setVisible(false);
+                } else {
+                	playerText2.setVisible(false);
+                }
+            });
+
+            // Handle mouse cilck event
+            imageView.setOnMouseClicked(event -> {
+                if (player1Turn) {
+                    // Player 1 selects the character
+                    if (imageView.getId().equals("Jay")) {
+                        this.player1 = new Player(Jay);
+                        System.out.println("Player 1 selected: " + player1.getCharacter().getName());
+                    } else {
+                        this.player1 = new Player(Selena);
+                        System.out.println("Player 1 selected: " + player1.getCharacter().getName());
+                    }
+                    player1Turn = false;
+                    playerText1.setText("Player 2");
+                    playerText2.setText("Player 2");
+                } else {
+                    // Player 2 selects the character
+                    if (imageView.getId().equals("Jay")) {
+                        this.player2 = new Player(Jay);
+                        System.out.println("Player 2 selected: " + player2.getCharacter().getName());
+                    } else {
+                        this.player2 = new Player(Selena);
+                        System.out.println("Player 2 selected: " + player2.getCharacter().getName());
+                    }
+
+                	// Starts the game/Enter the gameStage
+                    Level1Stage level1 = new Level1Stage(charSelectStage, player1, player2);
+                    level1.setStage();
+                }
+            });
+        }
+
+		// Adds the character's text and image in the GridPane 
+        this.charPane.add(char1, 0, 0);
+        this.charPane.add(char2, 1, 0);
+        this.charPane.add(jayImage, 0, 1);
+        this.charPane.add(selenaImage, 1, 1);
+        this.charPane.add(playerText1, 0, 2);
+        this.charPane.add(playerText2, 1, 2);
+
+        for (Text text : new Text[]{char1, char2}) {
+			// Create a StackPane to contain the text node
+            StackPane textPane = new StackPane();
+            
+		    // Customizes the StackPane
+            textPane.setStyle("-fx-background-color: rgba(154, 146, 123, 0.8);" +
+                    "-fx-background-radius: 10px;" +
+                    "-fx-background-insets: 0px, 10px, 0px, 10px;");
+           
+		    // Add the text node to the StackPane
+            textPane.getChildren().add(text);
+            
+		    // Add the StackPane to the GridPane
+            charPane.add(textPane, GridPane.getColumnIndex(text), GridPane.getRowIndex(text));
+        }
+
+		// Customizes the GridPane
+        this.charPane.setAlignment(Pos.CENTER);
+        this.charPane.setHgap(200);
+        this.charPane.setVgap(45);
+
+		// Sets the alignment for each cell in the GridPane
+        for (Node child : charPane.getChildren()) {
+            if (child instanceof Text || child instanceof ImageView) {
+                GridPane.setHalignment(child, HPos.CENTER);
+                GridPane.setValignment(child, VPos.CENTER);
+            }
+        }
+
+        // Adds the header to the headerPane
+     	this.headerPane.getChildren().add(header);
+        
+		// Adds the header and GridPane to the root node
+        this.charSelectRoot.getChildren().addAll(headerPane, charPane);
+        this.charSelectRoot.setAlignment(Pos.CENTER);
+
+        Scene charSelectScene = new Scene(charSelectRoot, 1344, 672);	// Adds the root node to the scene
+        this.charSelectStage.setScene(charSelectScene);					// Adds the scene to the stage
+        this.charSelectStage.setTitle("Character Selection");			// Sets the title of the stage
+        this.charSelectStage.setResizable(false);						// Sets the stage to unresizable
+        this.charSelectStage.show();									// Show the stage
+    }
+
+    // Method for getting the background image
+ 	private BackgroundImage getBackgroundImage() {
+ 		if (this.charSelectBackground == null) {
+             this.charSelectBackground = new Image("images/late-afternoon.jpg");
+         }
+ 		
+         return new BackgroundImage(
+                 this.charSelectBackground,
+                 BackgroundRepeat.NO_REPEAT,
+                 BackgroundRepeat.NO_REPEAT,
+                 BackgroundPosition.DEFAULT,
+                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)
+         );
+     }
+}

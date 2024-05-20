@@ -1,0 +1,100 @@
+/*
+ * Name: Margaux Jayziel C. Flormata & Selena Therese Barrameda
+ * Date Created: May 6, 2024 9:53:19 PM
+ * Section: WX - 4L
+ */
+package entity;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+
+public class Character {
+    // Class attributes
+    private String name;
+    private int speed;
+    private int health;
+    private Image displaySheet;
+    private ImageView displayView;
+    private Image spriteSheet;
+    private ImageView imageView;
+    private int numFrames = 3;
+    private int currentFrame = 0;
+    private Timeline animation;
+
+    // Constructor
+    public Character(String name, int health, int speed, String displaySheetPath, String spriteSheetPath) {
+        this.name = name;
+        this.health = health;
+        this.speed = speed;
+        this.displaySheet = new Image(displaySheetPath);
+        this.displayView = new ImageView(displaySheet);
+        this.spriteSheet = new Image(spriteSheetPath);
+        this.imageView = new ImageView(spriteSheet);
+    }
+
+    public void setupDisplay() {
+        animation = new Timeline(new KeyFrame(Duration.millis(100), e -> nextFrame()));
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.play();
+    }
+
+    private void nextFrame() {
+        displayView.setViewport(new javafx.geometry.Rectangle2D(currentFrame * 224, 0, 224, 224));
+        currentFrame = (currentFrame + 1) % numFrames;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getHP() {
+        return this.health;
+    }
+
+    public int getSpeed() {
+        return this.speed;
+    }
+
+    public ImageView getDisplayView() {
+        return displayView;
+    }
+    
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setHP(int health) {
+        this.health = health;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+    
+//    // Method to move character up
+//    public void moveUp() {
+//        imageView.setLayoutY(imageView.getLayoutY() - speed);
+//    }
+//
+//    // Method to move character down
+//    public void moveDown() {
+//        imageView.setLayoutY(imageView.getLayoutY() + speed);
+//    }
+//
+//    // Method to move character left
+//    public void moveLeft() {
+//        imageView.setLayoutX(imageView.getLayoutX() - speed);
+//    }
+//
+//    // Method to move character right
+//    public void moveRight() {
+//        imageView.setLayoutX(imageView.getLayoutX() + speed);
+//    }
+    
+}
+
+
+
